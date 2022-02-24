@@ -17,9 +17,12 @@ const createProduct = async (name, quantity) => {
 
 const existsProductByName = async (name) => productModel.existsProductByName(name);
 
+const deleteProduct = async (id) => productModel.deleteProduct(id);
+
 module.exports = {
     getAll,
     getProductById,
     createProduct,
     existsProductByName,
+    deleteProduct,
 };
