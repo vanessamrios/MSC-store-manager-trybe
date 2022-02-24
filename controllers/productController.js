@@ -16,7 +16,19 @@ const getProductById = async (req, res) => {
     return res.status(200).json(product);
 };
 
+const createProduct = async (req, res) => {
+  const { name, quantity } = req.body;
+
+  if (await productService.existsProductByName(name)) {
+    return res.status(409).json({ message: 'Product already exists' });
+  }
+
+  const createdProduct = await productService.createProduct(name, quantity);
+  return res.status(201).json(createdProduct);
+};
+
 module.exports = {
   getAll,
   getProductById,
+  createProduct,
 };
