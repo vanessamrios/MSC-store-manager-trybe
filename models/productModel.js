@@ -1,13 +1,16 @@
 const connection = require('./connection');
 
 const getAllProducts = async () => {
-    const query = 'SELECT * FROM products ORDER BY id ASC;';
+    const query = 'SELECT * FROM StoreManager.products ORDER BY id ASC;';
     const [products] = await connection.execute(query);
     return products;
 };
 
 const getProductById = async (id) => {
-    const query = 'SELECT * FROM products WHERE id = ?';
+    if (!id) {
+        return null;
+    }
+    const query = 'SELECT * FROM StoreManager.products WHERE id = ?';
     const [product] = await connection.execute(query, [id]);
     if (product.length === 0) return null;
     
@@ -15,8 +18,11 @@ const getProductById = async (id) => {
 };
 
 const createProduct = async (name, quantity) => {
+    if (!name || !quantity) {
+        return null;
+    }
     const query = `
-        INSERT INTO products (name, quantity)
+        INSERT INTO StoreManager.products (name, quantity)
         VALUES (?, ?);
     `;
     const [result] = await connection.execute(query, [name, quantity]);
@@ -31,7 +37,10 @@ const createProduct = async (name, quantity) => {
 };
 
 const existsProductByName = async (name) => {
-    const query = 'SELECT * FROM products WHERE name = ?;';
+    if (!name) {
+        return null;
+    }
+    const query = 'SELECT * FROM StoreManager.products WHERE name = ?;';
     const [result] = await connection.execute(query, [name]);
     if (result.length) {
         return true;
@@ -40,6 +49,9 @@ const existsProductByName = async (name) => {
 };
 
 const deleteProduct = async (id) => {
+    if (!id) {
+        return null;
+    }
     const query = `
     DELETE FROM StoreManager.products
     WHERE id = ?

@@ -8,9 +8,9 @@ const getAllSales = async () => {
             product.product_id AS productId,
             product.quantity
         FROM
-            sales 
+            StoreManager.sales 
         INNER JOIN
-            sales_products AS product
+            StoreManager.sales_products AS product
                 ON sales.id = product.sale_id;
     `;
 
@@ -19,15 +19,18 @@ const getAllSales = async () => {
 };
 
 const getSaleById = async (id) => {
+    if (!id) {
+        return null;
+    }
     const query = `
         SELECT 
             sales.date,
             product.product_id AS productId,
             product.quantity
         FROM
-            sales 
+            StoreManager.sales 
         INNER JOIN
-            sales_products AS product
+            StoreManager.sales_products AS product
                 ON sales.id = product.sale_id
         WHERE sales.id = ?;
     `;
