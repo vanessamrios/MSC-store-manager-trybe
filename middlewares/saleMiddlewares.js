@@ -1,5 +1,5 @@
 const validateProductId = (req, res, next) => {
-    const { productId } = req.body;
+    const { productId } = req.body[0];
   if (!productId) {
     return res.status(400).send({ message: '"productId" is required' });
   }
@@ -7,7 +7,7 @@ const validateProductId = (req, res, next) => {
 };
 
 const validateQuantity = (req, res, next) => {
-    const { quantity } = req.body;
+    const { quantity } = req.body[0];
   if (!quantity) {
     return res.status(400).send({ message: '"quantity" is required' });
   }

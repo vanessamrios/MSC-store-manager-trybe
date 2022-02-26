@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const productController = require('./controllers/productController');
 const saleController = require('./controllers/saleController');
 const productMiddlewares = require('./middlewares/productMiddlewares');
+const saleMiddleware = require('./middlewares/saleMiddlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,6 +27,8 @@ app.get('/sales', saleController.getAll);
 app.post('/products', productMiddlewares.validateName, productMiddlewares.validateQuantity, productController.createProduct);
 
 app.delete('/products/:id', productController.deleteProduct);
+
+app.post('/sales', saleMiddleware.validateProductId, saleMiddleware.validateQuantity, saleController.createSale);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
