@@ -60,9 +60,31 @@ const addProductToSale = async (saleId, productId, quantity) => {
     return addedProduct;
 };
 
+const updateSale = async (saleId, productId, quantity) => {
+    const query = `
+    UPDATE StoreManager.sales_products
+    SET
+        product_id = ?,
+        quantity = ?
+    WHERE
+        sale_id = ? ;
+    `;
+    const [result] = await connection.execute(query, [productId, quantity, saleId]);
+        
+    if (!result.affectedRows) {
+        return null;
+    }
+    const itemUpdated = {
+        productId,
+        quantity,
+    };
+    return itemUpdated;
+};
+
 module.exports = {
     getAllSales,
     getSaleById,
     createSale,
     addProductToSale,
+    updateSale,
 };

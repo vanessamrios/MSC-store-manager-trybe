@@ -33,6 +33,8 @@ app.delete('/products/:id', productController.deleteProduct);
 
 app.put('/products/:id', productValidations, productController.updateProduct);
 
+app.put('/sales/:id', saleValidations, saleController.updateSale);
+
 app.post('/sales', saleValidations, saleController.createSale);
 
 app.listen(process.env.PORT, () => {
