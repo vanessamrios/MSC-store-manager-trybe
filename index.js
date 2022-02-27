@@ -8,6 +8,9 @@ const saleController = require('./controllers/saleController');
 const productMiddlewares = require('./middlewares/productMiddlewares');
 const saleMiddleware = require('./middlewares/saleMiddlewares');
 
+const productValidations = [productMiddlewares.validateName, productMiddlewares.validateQuantity];
+const saleValidations = [saleMiddleware.validateProductId, saleMiddleware.validateQuantity];
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -24,11 +27,13 @@ app.get('/sales/:id', saleController.getSaleById);
 
 app.get('/sales', saleController.getAll);
 
-app.post('/products', productMiddlewares.validateName, productMiddlewares.validateQuantity, productController.createProduct);
+app.post('/products', productValidations, productController.createProduct);
 
 app.delete('/products/:id', productController.deleteProduct);
 
-app.post('/sales', saleMiddleware.validateProductId, saleMiddleware.validateQuantity, saleController.createSale);
+app.put('/products/:id', productValidations, productController.updateProduct);
+
+app.post('/sales', saleValidations, saleController.createSale);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);

@@ -19,10 +19,13 @@ const existsProductByName = async (name) => productModel.existsProductByName(nam
 
 const deleteProduct = async (id) => productModel.deleteProduct(id);
 
+const updateProduct = async (product) => productModel.updateProduct(product);
+
 module.exports = {
     getAll,
     getProductById,
     createProduct,
     existsProductByName,
     deleteProduct,
+    updateProduct,
 };
